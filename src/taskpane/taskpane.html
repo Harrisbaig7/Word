@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Placeholder Text Plugin</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- Fluent UI -->
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css"/>
+
+    <!-- Custom styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-Fabric">
+    <header class="ms-bgColor-neutralLighter ms-fontSize-xl">
+        <div style="padding: 10px;">
+            <h1>Placeholder Text Plugin</h1>
+        </div>
+    </header>
+
+    <main style="padding: 20px;">
+        <h2 class="ms-font-l">Select a Placeholder Text</h2>
+        <div style="margin-bottom: 10px;">
+            <select id="placeholderList" class="ms-ComboBox" style="width: 100%; padding: 10px; font-size: 16px;">
+                <option value="Lorem Ipsum">Lorem Ipsum</option>
+                <option value="Hello, World!">Hello, World!</option>
+                <option value="Quick Brown Fox">Quick Brown Fox</option>
+                <option value="Custom Placeholder">Custom Placeholder</option>
+            </select>
+        </div>
+        <button id="insertButton" class="ms-Button ms-Button--primary">
+            <span class="ms-Button-label">Insert Placeholder</span>
+        </button>
+    </main>
+
+    <script>
+        Office.onReady(() => {
+            document.getElementById("insertButton").addEventListener("click", async () => {
+                const placeholder = document.getElementById("placeholderList").value;
+                await Word.run(async (context) => {
+                    const docBody = context.document.body;
+                    docBody.insertText(placeholder, Word.InsertLocation.start);
+                    await context.sync();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
